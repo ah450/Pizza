@@ -1,0 +1,188 @@
+<?xml version="1.0"?>
+<!DOCTYPE vxml PUBLIC "vxml" "http://www.w3.org/TR/voicexml20/vxml.dtd">
+ 
+<vxml version="2.0">
+  <!-- A function in JavaScript -->
+  <script>
+  function price(size,toppings, type, number)
+  {
+    var res = 20;
+    if ('big' == size) res += 5;
+    if('large' == size) res += 5;
+    if('personal' == size) res += 1;
+    if('small' == size) res += 2;
+    if('regular' == size) res += 3;
+    if('medium' == size) res += 3;
+    if('family' == size) res += 10;
+    if ('cheese' == toppings) res += 1;
+    if ('mushrooms' == toppings) res += 2;
+    if ('chicken' == toppings) res += 3;
+    if ('anchovies' == toppings) res += 2;
+    if ('pepperoni' == toppings) res += 3;
+
+    if ('two' == number) res *= 2;
+    if ('three' == number) res *= 3;
+    if ('crispy' == type) res += 2;
+    if ('thin' == type) res += 1;
+    if ('pan' == type) res += 5;
+    if ('stuffed' == type) res += 6;
+
+	
+    return res;
+  }
+  </script>
+  <!-- -->
+
+  <form id="form1">
+	<!-- A block for an initial greeting -->
+    <block>Welcome to Ahmed's pizza ordering service!</block>    
+	<!-- -->
+	<!-- The external form-level grammar -->
+    <grammar src="grammar.grxml"/>		
+	<!-- -->
+
+    <!-- The field for storing the size information -->
+  
+
+    <field name="size" >
+      <prompt>What size would you like?</prompt>
+      <grammar root="ROOT" type="application/srgs+xml">
+        <rule id="ROOT">
+          <one-of>
+              <item>big<tag>$='big';</tag></item>
+              <item>large<tag>$='large';</tag></item>
+              <item>regular<tag>$='regular';</tag></item>
+              <item>medium<tag>$='medium';</tag></item>
+              <item>personal<tag>$='personal';</tag></item>
+              <item>small<tag>$='small';</tag></item>
+              <item>family<tag>$='family';</tag></item>
+          </one-of>
+        </rule>
+      </grammar>
+      <filled>Ok.</filled>
+    </field>
+	<!-- -->
+
+	<!-- The field for storing the size confirmation information -->
+    <field name="confirm_size" cond="size != undefined">
+      <prompt>So you want a <value expr="size"/> pizza?</prompt>
+      <grammar root="ROOT" type="application/srgs+xml">
+        <rule id="ROOT">
+          <one-of>
+            <item>yes <tag> $=true; </tag></item>
+            <item>no <tag> $=false; </tag></item>
+          </one-of>
+        </rule>
+      </grammar>
+      <filled>
+	<if cond="!confirm_size"><clear namelist="size confirm_size"/></if>
+      </filled>
+    </field>
+    <!-- -->
+
+	<!-- The field for storing the toppings information -->
+    <field name="toppings">
+      <prompt>What toppings would you like?</prompt>
+      <grammar root="ROOT" type="application/srgs+xml">
+        <rule id="ROOT">
+          <one-of>
+          <item>cheese <tag>toppings='cheese';</tag></item>
+          <item>mushrooms <tag>toppings='mushrooms';</tag></item>
+	  <item>mushroom <tag>toppings='mushrooms';</tag></item>
+	  <item>anchovie<tag>toppings='anchovies';</tag></item>
+	  <item>chicken<tag>toppings='chicken';</tag></item>
+          <item>chickens<tag>toppings='chicken';</tag></item>
+	  <item>anchovies<tag>toppings='anchovies';</tag></item>
+	  <item>pepperoni<tag>toppings='pepperoni';</tag></item>
+          </one-of>
+        </rule>
+      </grammar>
+        <filled>Ok.</filled>
+    </field>
+
+      <field name="confirm_toppings" cond="toppings != undefined">
+      <prompt>So you want a <value expr="toppings"/><value expr="size"/> pizza?</prompt>
+      <grammar root="ROOT" type="application/srgs+xml">
+        <rule id="ROOT">
+          <one-of>
+            <item>yes <tag> $=true; </tag></item>
+            <item>no <tag> $=false; </tag></item>
+          </one-of>
+        </rule>
+      </grammar>
+      <filled>
+	<if cond="!confirm_toppings"><clear namelist="toppings confirm_toppings"/></if>
+      </filled>
+    </field>
+
+    <field name="type">
+      <prompt>What type pizza would you like?</prompt>
+      <grammar root="ROOT" type="application/srgs+xml">
+        <rule id="ROOT">
+          <one-of>
+          	<item>pan<tag>$='pan';</tag></item>
+                <item>ban<tag>$='pan';</tag></item>
+	        <item>stuffed<tag>$='stuffed';</tag></item>
+	        <item>stuffed crust<tag>$='stuffed';</tag></item>
+	        <item>thin<tag>$='thin';</tag></item>
+	        <item>crispy<tag>$='crispy';</tag></item>
+                <item>crisby<tag>$='crispy';</tag></item>
+          </one-of>
+        </rule>
+      </grammar>
+        <filled>Ok.</filled>
+    </field>
+
+    <field name="confirm_type" cond="type != undefined">
+      <prompt>So you want a <value expr="type"/><value expr="toppings"/><value expr="size"/>pizza?</prompt>
+      <grammar root="ROOT" type="application/srgs+xml">
+        <rule id="ROOT">
+          <one-of>
+            <item>yes <tag> $=true; </tag></item>
+            <item>no <tag> $=false; </tag></item>
+          </one-of>
+        </rule>
+      </grammar>
+      <filled>
+	<if cond="!confirm_type"><clear namelist="type confirm_type"/></if>
+      </filled>
+    </field>
+
+    <field name="number">
+      <prompt>How many would you like?</prompt>
+      <grammar root="ROOT" type="application/srgs+xml">
+        <rule id="ROOT">
+          <one-of>
+                  <item>two<tag>number='two';</tag></item>
+	                <item>three<tag>number='three';</tag></item>
+                  <item>one<tag>number='one';</tag></item>
+          </one-of>
+        </rule>
+      </grammar>
+        <filled>Ok.</filled>
+    </field>
+
+    <field name="confirm_number" cond="type != number">
+      <prompt>So you want <value expr="number"/> <value expr="type"/> <value expr="toppings"/> <value expr="size"/> pizza?</prompt>
+      <grammar root="ROOT" type="application/srgs+xml">
+        <rule id="ROOT">
+          <one-of>
+            <item>yes <tag> $=true; </tag></item>
+            <item>no <tag> $=false; </tag></item>
+          </one-of>
+        </rule>
+      </grammar>
+      <filled>
+	<if cond="!confirm_number"><clear namelist="number confirm_number"/></if>
+      </filled>
+    </field>
+
+
+
+	<!-- -->
+
+	<!-- A block for generating a summary and termination of the dialogue -->
+    <block>Fine. Your total is <value expr="price(size,toppings, type, number)"/> pounds. Your order will be ready shortly.</block>
+	<!-- -->
+  </form>
+</vxml>

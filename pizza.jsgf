@@ -1,0 +1,11 @@
+#JSGF V1.0;
+grammar pizza;
+<confirm> = YES|NO;
+<size> = BIG|LARGE|REGULAR|MEDIUM|PERSONAL|SMALL|FAMILY;
+<toppings> = CHEESE|MUSHROOMS|MUSHROOM|ANCHOVIES|ANCHOVIE|CHICKEN|CHICKENS|PEPPERONI;
+<type> = PAN|BAN|STUFFED|STUFFED CRUST|THIN|CRISPY|CRISBY;
+<number> = TWO|THREE|ONE;
+
+public <response> = <confirm>|<size>|<toppings>|<type>|<number>;
+
+
